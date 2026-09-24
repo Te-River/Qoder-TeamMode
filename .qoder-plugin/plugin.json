@@ -1,17 +1,26 @@
 {
-  "name": "team-mode",
-  "displayName": "Team Mode",
+  "name": "TeamMode",
+  "displayName": "TeamMode",
   "version": "0.1.0",
-  "description": "Port of the OpenCode TeamMode orchestration: a lead plus five tool-restricted specialists, a deterministic routing table, a count-based approval gate, and structured STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF handoffs. Built entirely on the host's own tools - it ships no tool layer of its own.",
+  "description": "Port of the OpenCode TeamMode orchestration: a lead skill for the main session plus five tool-restricted specialists, a deterministic routing table, a count-based approval gate, and structured STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF handoffs. Built entirely on the host's own tools - it ships no tool layer of its own.",
   "descriptionZh": "OpenCode TeamMode 编排层移植：lead + 5 个工具受限专家，确定性路由表、计数审批门与 STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF 结构化交接。完全使用宿主原生工具，不自带工具层。",
-  "author": { "name": "Te_River" },
+  "author": {
+    "name": "Te_River"
+  },
   "license": "Apache-2.0",
   "homepage": "https://github.com/Te-River/Qoder-TeamMode",
   "repository": "https://github.com/Te-River/Qoder-TeamMode",
-  "keywords": ["qoder-plugin", "skill", "team", "orchestration", "multi-agent", "code-review", "testing"],
+  "keywords": [
+    "qoder-plugin",
+    "skill",
+    "team",
+    "orchestration",
+    "multi-agent",
+    "code-review",
+    "testing"
+  ],
   "skills": "./skills/",
   "agents": [
-    "./agents/team-lead.md",
     "./agents/architect.md",
     "./agents/implementer.md",
     "./agents/reviewer.md",

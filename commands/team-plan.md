@@ -3,7 +3,7 @@ name: team-plan
 description: "Create a comprehensive implementation plan — architecture, task breakdown, and risk analysis."
 ---
 
-Dispatch the brief below VERBATIM to the `team-mode:architect` sub-agent with the
+Dispatch the brief below VERBATIM to the `TeamMode:architect` sub-agent with the
 `Agent` tool.  When its reply arrives, relay the
 STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF skeleton to the user as-is.  Do not do
 the design yourself, and do not fill in verification a sub-agent did not run.

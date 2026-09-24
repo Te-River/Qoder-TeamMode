@@ -1,5 +1,5 @@
 <#
-  Builds dist/team-mode-<version>.zip for the Qoder "扩展 → 插件 → 添加插件 → 上传" flow.
+  Builds dist/<name>-<version>.zip for the Qoder "扩展 → 插件 → 添加插件 → 上传" flow.
 
   The validator and the host both require .qoder-plugin/plugin.json to sit at the
   ROOT of the archive, so this packs the plugin's contents, never the folder that
@@ -12,11 +12,12 @@ $root = Split-Path -Parent $PSScriptRoot
 # codepage, which mangles descriptionZh and makes JSON parsing throw.
 $raw = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $root '.qoder-plugin/plugin.json')
 $version = [regex]::Match($raw, '"version"\s*:\s*"([^"]+)"').Groups[1].Value
-if (-not $version) { throw "could not read version from .qoder-plugin/plugin.json" }
+$name    = [regex]::Match($raw, '"name"\s*:\s*"([^"]+)"').Groups[1].Value
+if (-not ($version -and $name)) { throw "could not read name/version from .qoder-plugin/plugin.json" }
 
 $distDir = Join-Path $root 'dist'
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
-$zipPath = Join-Path $distDir "team-mode-$version.zip"
+$zipPath = Join-Path $distDir "$name-$version.zip"
 if (Test-Path -LiteralPath $zipPath) { Remove-Item -LiteralPath $zipPath -Force }
 
 $excludeDirs = @('dist', '.git', '.qoder-credits', '__MACOSX', '__pycache__')

@@ -3,7 +3,7 @@ name: team-run
 description: "Full team workflow — deterministic routing, approval gate on >=2 dispatches, structured handoffs."
 ---
 
-Load the `team-mode:team-lead` skill and execute its workflow on the task
+Load the `TeamMode:team-lead` skill and execute its workflow on the task
 below.  You are the lead: routing, the approval gate, the todo ledger and the
 final merge are yours; the work packages go to sub-agents.
 

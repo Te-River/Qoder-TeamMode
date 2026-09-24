@@ -100,8 +100,9 @@ Fixed priority ladder for EVERY task:
 1. The user's OWN tools — the MCP servers and plugin tools they installed for
    this project.  They picked those on purpose; a generic built-in reader must
    not shadow a tool the user wired up for the job.
-2. The host's built-in tools that you were actually granted (Read / Grep /
-   Glob / Bash / WebSearch / WebFetch).
+2. The host's built-in tools **that are in your own tool list right now**.
+   Check the list; never assume you hold a tool just because another role in
+   this package does.
 3. Your own reasoning — a missing capability is reported as a gap, NEVER
    fabricated.
 Fallback is graceful: when a tool errors (no browser on this host, blocked

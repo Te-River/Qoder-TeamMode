@@ -3,7 +3,7 @@ name: team-test
 description: "Generate comprehensive tests — unit, integration, and edge-case coverage."
 ---
 
-Dispatch the brief below VERBATIM to the `team-mode:tester` sub-agent with the
+Dispatch the brief below VERBATIM to the `TeamMode:tester` sub-agent with the
 `Agent` tool.  When its reply arrives, relay the
 STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF skeleton to the user as-is — including
 any `UI NOT VERIFIED:` line, which is honest output and must not be smoothed

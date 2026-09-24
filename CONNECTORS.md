@@ -2,7 +2,7 @@
 
 ## Team Mode registers nothing
 
-`team-mode` ships **no MCP server, no hooks, and no credentials**. It is skills,
+`TeamMode` ships **no MCP server, no hooks, and no credentials**. It is skills,
 agents and command templates only. Anything it does with the network or a
 browser runs through connectors **you** installed, and it inherits whatever
 account, proxy and permission mode those connectors already have.
@@ -16,9 +16,9 @@ network grant in its `tools:` line.
 
 | Role | Wants | Used for |
 |---|---|---|
-| `team-mode:researcher` | a docs MCP (e.g. context7), a search MCP, a browser MCP | library docs, external APIs, JS-rendered pages |
-| `team-mode:tester` | a browser MCP (`browser-use` tool names are referenced in its prompt) | verifying user-visible frontend changes |
-| `team-mode:team-lead` | the host's `WebSearch` / `WebFetch` | the discovery gate: real `--help` / docs before coding against an interface |
+| `TeamMode:researcher` | a docs MCP (e.g. context7), a search MCP, a browser MCP | library docs, external APIs, JS-rendered pages |
+| `TeamMode:tester` | a browser MCP (`browser-use` tool names are referenced in its prompt) | verifying user-visible frontend changes |
+| `TeamMode:team-lead` | the host's `WebSearch` / `WebFetch` | the discovery gate: real `--help` / docs before coding against an interface |
 
 If a browser MCP is absent, nothing breaks — you get the behavior below instead.
 

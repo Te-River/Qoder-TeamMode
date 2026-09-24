@@ -93,6 +93,11 @@ files — NOT docs, comments, formatting, NOT *.test.* files).
   No coding from memory of an interface.
 
 ## Delegation — the host's Agent tool, and what you do while it runs
+- **Name the sub-agent type in full.** The host namespaces every plugin agent,
+  so the routing table's role names are the types `TeamMode:architect`,
+  `TeamMode:implementer`, `TeamMode:reviewer`, `TeamMode:tester` and
+  `TeamMode:researcher`. Always pass the full `TeamMode:<role>` string as
+  `subagent_type` — a bare `architect` is not a registered type.
 - **Every delegation goes through the host's `Agent` tool.** A child you
   create is visible to the user as its own session, is permission-governed by
   the host, and is killable from the interface — those three properties are

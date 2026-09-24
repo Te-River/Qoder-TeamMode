@@ -16,14 +16,14 @@ the governance tooling that only existed to fill OpenCode's gaps.
 
 | Command | What it does |
 |---|---|
-| `/team-mode:team-run` | Full workflow: triage → route → count dispatches → plan-and-approval-gate → execute pipeline → adaptive review → feedback loop → summary. This is the one to reach for. |
-| `/team-mode:team-plan` | One dispatch to `architect`. |
-| `/team-mode:team-implement` | One dispatch to `implementer`. |
-| `/team-mode:team-review` | One dispatch to `reviewer` (three in one round when the change is high-risk). |
-| `/team-mode:team-test` | One dispatch to `tester`. |
-| `/team-mode:team-research` | One dispatch to `researcher`. |
+| `/TeamMode:team-run` | Full workflow: triage → route → count dispatches → plan-and-approval-gate → execute pipeline → adaptive review → feedback loop → summary. This is the one to reach for. |
+| `/TeamMode:team-plan` | One dispatch to `architect`. |
+| `/TeamMode:team-implement` | One dispatch to `implementer`. |
+| `/TeamMode:team-review` | One dispatch to `reviewer` (three in one round when the change is high-risk). |
+| `/TeamMode:team-test` | One dispatch to `tester`. |
+| `/TeamMode:team-research` | One dispatch to `researcher`. |
 
-Sub-agents are addressable by name too: `@team-mode:architect`, and the
+Sub-agents are addressable by name too: `@TeamMode:architect`, and the
 `team-lead` skill auto-triggers on multi-specialist work.
 
 ## Layout
@@ -31,10 +31,9 @@ Sub-agents are addressable by name too: `@team-mode:architect`, and the
 ```text
 .qoder-plugin/plugin.json     manifest — name/version + the three component paths
 skills/team-lead/SKILL.md     the lead contract, as an invocable skill
-agents/team-lead.md           the same body, as an agent (see "Two shapes for the lead")
 agents/{architect,implementer,reviewer,tester,researcher}.md
 commands/{team-run,team-plan,team-implement,team-review,team-test,team-research}.md
-scripts/pack.ps1              builds dist/team-mode-<version>.zip for upload
+scripts/pack.ps1              builds dist/TeamMode-<version>.zip for upload
 scripts/validate.ps1          runs Qoder's own `plugins validate` against a dir or zip
 ```
 
@@ -72,14 +71,12 @@ hygiene · "a capability you don't have is a gap, never a simulation".
 
 ## Known differences (honest list)
 
-1. **The tool matrix may not be enforced.** The `tools:` / `disallowedTools:`
-   keys in `agents/*.md` come from Qoder's subagent documentation. On the
-   machine this was built on, none of the three installed plugins that ship
-   agents restrict tools the same way (one uses `allowed-tools`, two ship no
-   tool key at all), so whether the host *enforces* a whitelist is unverified.
-   The real lock is prompt-level: every specialist is told that a tool it was
-   not given does not exist and must be reported as a gap. If you verify
-   enforcement (see checklist item 4 below), say so here.
+1. **The tool matrix IS enforced — measured.** `TeamMode:architect` was asked
+   to run `ls` and answered `TOOL NOT AVAILABLE` without faking a directory
+   listing; its self-reported surface was exactly `Glob`, `Grep`, `Read`, and it
+   held no `Bash`, `Write` or `WebFetch`. So `tools:` is a whitelist the host
+   applies, not a suggestion, and the "zero-bypass" property of the original
+   design survives the port.
 2. **No per-agent temperature.** "All six agents at 0.2" is not portable; the
    host exposes `model` and effort levels instead. Nothing here pretends to be
    equivalent.
@@ -88,11 +85,14 @@ hygiene · "a capability you don't have is a gap, never a simulation".
 4. **Oversized artifacts cost lead context.** With the board and the offload
    store gone, a >50-line deliverable comes back to the lead, which then writes
    it. That is exactly the token cost the OpenCode version existed to avoid.
-5. **Two shapes for the lead.** Qoder plugins cannot replace the main session's
-   persona, so the lead ships both as a skill (works today, loaded into the
-   main session) and as `agents/team-lead.md` (the shape for a host that lets
-   you run a session as a named agent). The bodies are generated from the same
-   text; nothing else in the package duplicates.
+5. **The lead can only be a skill, never a sub-agent.** A plugin sub-agent
+   cannot be granted the right to dispatch: `tools:` entries written as
+   `Agent(architect)` and as bare `Agent` were both dropped by the host, and an
+   attempted dispatch died in the host's parser rather than reaching a child.
+   That was tested with a shipped `agents/team-lead.md`, which is why the file
+   is gone — a lead that cannot delegate is just another specialist with a
+   longer prompt. So `team-lead` lives in `skills/` and runs as the main
+   session, which is the shape the routing table assumes anyway.
 6. **Native Agent Teams is not used.** Qoder has a multi-agent team feature,
    but it is enterprise-only, has no shared task board or member-to-member
    messaging documented, and its members are configured by hand in settings.
@@ -110,7 +110,7 @@ hygiene · "a capability you don't have is a gap, never a simulation".
 powershell -ExecutionPolicy Bypass -File scripts\pack.ps1
 ```
 
-Then in Qoder: **扩展 → 插件 → 添加插件 → 上传**, pick `dist/team-mode-<version>.zip`,
+Then in Qoder: **扩展 → 插件 → 添加插件 → 上传**, pick `dist/TeamMode-<version>.zip`,
 and **fully quit and restart** Qoder. Updating is the same three steps after
 bumping `version`.
 
@@ -118,7 +118,7 @@ Offline check before uploading — this runs **Qoder's own validator**, the same
 `plugins validate` call the upload path makes:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\validate.ps1 -Target dist\team-mode-0.1.0.zip
+powershell -ExecutionPolicy Bypass -File scripts\validate.ps1 -Target dist\TeamMode-0.1.0.zip
 ```
 
 It resolves the package through the installed Qoder executable, so it reports
@@ -133,10 +133,10 @@ generic "扩展内容与当前版本不兼容" toast.)
 
 ### Four things to verify after the restart
 
-1. Typing `/team-mode:` offers the six commands.
-2. `team-mode:architect` appears among the sub-agent types.
+1. Typing `/TeamMode:` offers the six commands.
+2. `TeamMode:architect` appears among the sub-agent types.
 3. A dispatch returns a reply that starts with the five skeleton lines.
-4. **The load-bearing one:** ask `team-mode:architect` to run `ls`. It should
+4. **The load-bearing one:** ask `TeamMode:architect` to run `ls`. It should
    answer that the capability is not on its tool surface — not run the command.
    If it runs it, item 1 of *Known differences* is confirmed and this section's
    wording must change from "restricted" to "advisory".
@@ -147,7 +147,7 @@ Remove it from **扩展 → 插件**; that also drops the namespaced commands.
 
 ## Requirements
 
-`team-mode` registers no MCP server and needs no credentials. Network and
+`TeamMode` registers no MCP server and needs no credentials. Network and
 browser capability comes entirely from connectors the user has installed — see
 [CONNECTORS.md](CONNECTORS.md).
 

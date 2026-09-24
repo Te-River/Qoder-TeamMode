@@ -3,7 +3,7 @@ name: team-research
 description: "Research a topic — grounded in the local repository (code, configs, installed packages, shipped docs)."
 ---
 
-Dispatch the brief below VERBATIM to the `team-mode:researcher` sub-agent with
+Dispatch the brief below VERBATIM to the `TeamMode:researcher` sub-agent with
 the `Agent` tool.  When its reply arrives, relay the
 STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF skeleton to the user as-is, keeping
 every confidence tag.  Do not research it yourself, and never let an unverified

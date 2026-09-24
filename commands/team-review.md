@@ -3,7 +3,7 @@ name: team-review
 description: "Review code with a single focused dimension — completeness, correctness, or impact (default: correctness)."
 ---
 
-Dispatch the brief below VERBATIM to the `team-mode:reviewer` sub-agent with the
+Dispatch the brief below VERBATIM to the `TeamMode:reviewer` sub-agent with the
 `Agent` tool.  When its reply arrives, relay the
 STATUS/CHANGES/FINDINGS/EVIDENCE/HANDOFF skeleton to the user as-is.  Do not
 review it yourself, and do not fill in verification a sub-agent did not run.
