@@ -9,9 +9,21 @@
   "homepage": "https://github.com/Te-River/Qoder-TeamMode",
   "repository": "https://github.com/Te-River/Qoder-TeamMode",
   "keywords": ["qoder-plugin", "skill", "team", "orchestration", "multi-agent", "code-review", "testing"],
-  "category": "developer-tools",
-  "tags": ["orchestration", "multi-agent"],
   "skills": "./skills/",
-  "agents": "./agents/",
-  "commands": "./commands/"
+  "agents": [
+    "./agents/team-lead.md",
+    "./agents/architect.md",
+    "./agents/implementer.md",
+    "./agents/reviewer.md",
+    "./agents/tester.md",
+    "./agents/researcher.md"
+  ],
+  "commands": [
+    "./commands/team-run.md",
+    "./commands/team-plan.md",
+    "./commands/team-implement.md",
+    "./commands/team-review.md",
+    "./commands/team-test.md",
+    "./commands/team-research.md"
+  ]
 }

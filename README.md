@@ -35,6 +35,7 @@ agents/team-lead.md           the same body, as an agent (see "Two shapes for th
 agents/{architect,implementer,reviewer,tester,researcher}.md
 commands/{team-run,team-plan,team-implement,team-review,team-test,team-research}.md
 scripts/pack.ps1              builds dist/team-mode-<version>.zip for upload
+scripts/validate.ps1          runs Qoder's own `plugins validate` against a dir or zip
 ```
 
 ## Ported vs dropped
@@ -96,6 +97,12 @@ hygiene · "a capability you don't have is a gap, never a simulation".
    but it is enterprise-only, has no shared task board or member-to-member
    messaging documented, and its members are configured by hand in settings.
    This plugin therefore implements its own routing rather than riding on it.
+7. **Two manifest fields are decorative.** The CLI validator reports
+   `descriptionZh` as "unknown field, ignored by the current runtime", yet the
+   desktop app's own package reader does pull it for display — so it is kept for
+   the UI and does nothing for the CLI. `category` and `tags` were removed
+   because the validator says they belong in `marketplace.json`; add them back
+   only when this repo grows a marketplace entry.
 
 ## Install
 
@@ -107,15 +114,22 @@ Then in Qoder: **扩展 → 插件 → 添加插件 → 上传**, pick `dist/tea
 and **fully quit and restart** Qoder. Updating is the same three steps after
 bumping `version`.
 
-Offline structure check (no restart needed):
+Offline check before uploading — this runs **Qoder's own validator**, the same
+`plugins validate` call the upload path makes:
 
-```bash
-python ~/.qoder-cn/plugins/cache/qoder-bundler/qoder-create-plugin/skills/create-plugin/scripts/validate_qoder_plugin.py dist/team-mode-0.1.0.zip
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\validate.ps1 -Target dist\team-mode-0.1.0.zip
 ```
 
-Note that this validator is stricter than the host in at least one place (it
-rejects array-valued `agents`, which installed marketplace plugins use), so
-green means "well-formed", not "will load".
+It resolves the package through the installed Qoder executable, so it reports
+what the host will accept rather than what a reference script believes. Expect
+`"valid":true`, 13 components, and one warning about `descriptionZh`.
+
+Do **not** gate on the `create-plugin` skill's `validate_qoder_plugin.py`: it
+requires `agents` to be a single string path, while the host's schema requires
+`.md` paths and rejects `"./agents/"` with `Path must end with .md`. The two
+disagree; the host wins. (That rejection is what surfaces in the UI as the
+generic "扩展内容与当前版本不兼容" toast.)
 
 ### Four things to verify after the restart
 
