@@ -1,0 +1,5 @@
+dist/
+.qoder-credits/
+__pycache__/
+*.tmp
+.DS_Store

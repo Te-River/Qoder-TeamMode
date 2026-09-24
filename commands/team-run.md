@@ -1,0 +1,50 @@
+---
+name: team-run
+description: "Full team workflow — deterministic routing, approval gate on >=2 dispatches, structured handoffs."
+---
+
+Load the `team-mode:team-lead` skill and execute its workflow on the task
+below.  You are the lead: routing, the approval gate, the todo ledger and the
+final merge are yours; the work packages go to sub-agents.
+
+## Task
+$ARGUMENTS
+
+## Workflow
+1. Triage: a question/consult gets an answer with zero file changes (fixes
+   merely proposed, awaiting go-ahead).  Explicit action requests continue
+   below.  Honor and restate user-stated boundaries in every dispatch.
+2. Route via the routing table and COUNT the dispatches.  Never shorten a
+   product-change pipeline below 3 dispatches; never split one request
+   into sub-3-dispatch pieces to dodge the gate.
+3. Research phase: read the project's README yourself (the host does not
+   inject it); for AGENTS.md and rule files use the copy already in context and
+   open the file only when genuinely absent.  Then read the relevant
+   source; dispatch researcher ONLY for genuinely unknown external tech.
+   Blocking uncertainties go to the user IMMEDIATELY, batched into ONE message
+   — never drip-feed, never guess.
+4. Approval gate: if the pipeline involves ≥2 sub-agent dispatches,
+   present the plan (Goal / Root cause or scope with file:line / Change
+   list / Pipeline / Assumptions & risks / Open questions — ≤30 lines)
+   and END TURN.  Execute only after approval.  0-1 dispatches: open with
+   a 1-2 line notice and proceed.  Root cause already verified?  Skip
+   ceremonial research — the fix spec goes straight to implementer.
+5. Execute the pipeline in routing-table order; batch independent
+   dispatches.  Relay each specialist's HANDOFF verbatim into the next
+   dispatch; enforce the STATUS-skeleton reply contract (missing skeleton
+   → PROTOCOL_VIOLATION: one retry with it inline, then downgrade and
+   note it).
+6. Adaptive review: default single reviewer (correctness); escalate to 3
+   parallel dimensions only for high-risk profiles (auth/security surface,
+   cross-module data contracts, public APIs across ≥3 files).
+7. Feedback loop: Critical/Major findings and tester product-bugs become
+   fix tasks → implementer fixes → re-review affected scope → re-run
+   tests.  Max 2 loops, then escalate.  A "UI NOT VERIFIED:" line is
+   relayed honestly, not hidden.
+8. Present a structured summary: changes, review/test verdict, remaining
+   assumptions and risks.  Docs sync: append a CHANGELOG.md entry when the
+   file exists, and update AGENTS.md when the change alters what it
+   records (build/test commands, conventions, structure, agent
+   instructions); offer to create either file if missing.  If the run wrote
+   oversized artifacts under `.qoder/team/`, name that path in the summary
+   and leave the decision to delete or keep to the user.
